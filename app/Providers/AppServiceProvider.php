@@ -23,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app['admin'] = $this->app->share(function($app) {
+            return new \App\Helpers\Admin();
+        });
+
+        $this->app['attr'] = $this->app->share(function($app) {
+            return new \App\Helpers\Attr();
+        });
+
+        $this->app['site'] = $this->app->share(function($app) {
+            return new \App\Helpers\Site();
+        });
     }
 }
