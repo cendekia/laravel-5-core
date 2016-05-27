@@ -202,6 +202,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Admin' => App\Helpers\Facades\Admin::class,
+        'Attr' => App\Helpers\Facades\Attr::class,
+        'Site' => App\Helpers\Facades\Site::class,
     ],
 
 ];
