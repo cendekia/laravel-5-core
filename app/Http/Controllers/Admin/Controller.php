@@ -15,5 +15,13 @@ class Controller extends BaseController
     public function __construct()
     {
     	$this->admin = 'admin';
+
+    	$this->navigation = (\Request::segment(2)) ?:null;
+    	$this->subNavigation = (\Request::segment(3)) ?:null;
+
+    	view()->share([
+    		'activeMenu' => $this->navigation,
+    		'activeSubMenu' => $this->subNavigation,
+    	]);
     }
 }
