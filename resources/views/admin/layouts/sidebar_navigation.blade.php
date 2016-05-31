@@ -39,7 +39,7 @@
                             <nav ui-nav>
                                 <ul class="nav">
                                     <li>
-                                        <a md-ink-ripple ui-toggle-class="hide, show" target="#nav, #account">
+                                        <a md-ink-ripple href="{{ url('admin/setting/account') }}">
                                             <span>Settings</span>
                                         </a>
                                     </li>
@@ -67,8 +67,8 @@
                                             <span>My Profile</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a md-ink-ripple href="page.settings.html">
+                                    <li class="{{ Attr::isActive('setting', $activeMenu) }}">
+                                        <a md-ink-ripple href="{{ url('admin/setting/account') }}">
                                             <i class="icon mdi-action-settings i-20"></i>
                                             <span>Settings</span>
                                         </a>

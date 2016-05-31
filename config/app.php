@@ -155,6 +155,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -205,6 +206,9 @@ return [
         'Admin' => App\Helpers\Facades\Admin::class,
         'Attr' => App\Helpers\Facades\Attr::class,
         'Site' => App\Helpers\Facades\Site::class,
+
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

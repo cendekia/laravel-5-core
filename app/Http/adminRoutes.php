@@ -16,7 +16,18 @@
 */
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => []], function() {
-    $defaultRouteName = 'admin..index';
+
+	Route::group(['prefix' => 'setting', 'namespace' => 'Setting', 'middleware' => []], function() {
+
+    	Route::resource('/account', 'AccountController');
+    	Route::resource('/roles', 'RoleController');
+
+	});
+
+	Route::get('/', function() {
+	    return Redirect::to('/admin/dashboard');
+	});
 
     Route::resource('/dashboard', 'DashboardController');
+
 });
