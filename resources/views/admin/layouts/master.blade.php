@@ -8,27 +8,31 @@
 <body>
     <div class="app">
 
-        @include('admin.layouts.sidebar_navigation')
+        @if ($isLogin)
+            @include('admin.layouts.sidebar_navigation')
 
-        <div id="content" class="app-content" role="main">
-            <div class="box">
+            <div id="content" class="app-content" role="main">
+                <div class="box">
 
-                @include('admin.layouts.top_navigations')
+                    @include('admin.layouts.top_navigations')
 
-                <div class="box-row">
-                    <div class="box-cell">
-                        <div class="box-inner padding">
+                    <div class="box-row">
+                        <div class="box-cell">
+                            <div class="box-inner padding">
 
-                            @yield('content')
+                                @yield('content')
 
+                            </div>
                         </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
 
-        @include('admin.layouts.notifications')
+            @include('admin.layouts.notifications')
+        @else
+            @yield('content')
+        @endif
 
     </div>
 

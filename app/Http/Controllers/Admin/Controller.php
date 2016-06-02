@@ -22,6 +22,7 @@ class Controller extends BaseController
     	view()->share([
     		'activeMenu' => $this->navigation,
     		'activeSubMenu' => $this->subNavigation,
+            'isLogin' => \Auth::check()
     	]);
     }
 }

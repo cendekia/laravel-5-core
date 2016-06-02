@@ -15,6 +15,8 @@
 |
 */
 
+Route::get('admin/signin', 'Admin\AuthController@getSignIn');
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => []], function() {
 
 	Route::group(['prefix' => 'setting', 'namespace' => 'Setting', 'middleware' => []], function() {
