@@ -19,23 +19,25 @@
 			<div class="m-b text-sm">
 				Sign in with your Materil Account
 			</div>
-			<form name="form">
-				<div class="md-form-group float-label">
-					<input type="email" class="md-input" ng-model="user.email" required>
+
+            {!! Form::open(['url' => 'admin/signin']) !!}
+				<div class="md-form-group">
+					<input type="email" name="email" class="md-input" ng-model="user.email" required>
 					<label>Email</label>
 				</div>
-				<div class="md-form-group float-label">
-					<input type="password" class="md-input" ng-model="user.password" required>
+				<div class="md-form-group">
+					<input type="password" name="password" class="md-input" ng-model="user.password" required>
 					<label>Password</label>
 				</div>
 				<div class="m-b-md">
 					<label class="md-check">
-					<input type="checkbox"><i class="indigo"></i> Keep me signed in
-				</label>
+    					<input type="checkbox" name="remember" value="1"><i class="indigo"></i> Keep me signed in
+    				</label>
 				</div>
 				<button md-ink-ripple type="submit" class="md-btn md-raised pink btn-block p-h-md">Sign in</button>
-			</form>
-		</div>
+			{!! Form::close() !!}
+
+        </div>
 
 		<div class="p-v-lg text-center">
 			<div class="m-b"><button ui-sref="access.forgot-password" class="md-btn">Forgot password?</button></div>

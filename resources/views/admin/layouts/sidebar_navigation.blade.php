@@ -74,7 +74,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a md-ink-ripple href="lockme.html">
+                                        <a md-ink-ripple href="{{ url('admin/signout') }}">
                                             <i class="icon mdi-action-exit-to-app i-20"></i>
                                             <span>Logout</span>
                                         </a>
