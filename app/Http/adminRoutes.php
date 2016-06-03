@@ -15,11 +15,14 @@
 |
 */
 
-Route::get('admin/signin', 'Admin\AuthController@getSignIn');
-Route::post('admin/signin', 'Admin\AuthController@postSignIn');
+Route::group(['middleware' => 'guest.admin'], function () {
+    Route::get('admin/signin', 'Admin\AuthController@getSignIn');
+    Route::post('admin/signin', 'Admin\AuthController@postSignIn');
+});
+
 Route::get('admin/signout', 'Admin\AuthController@getSignOut');
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => []], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth.admin', 'restrictAccess']], function() {
 
 	Route::group(['prefix' => 'setting', 'namespace' => 'Setting', 'middleware' => []], function() {
 
