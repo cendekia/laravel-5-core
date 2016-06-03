@@ -8,7 +8,7 @@
 <body>
     <div class="app">
 
-        @if ($isLogin)
+        @if (!$isLogin)
             @include('admin.layouts.sidebar_navigation')
 
             <div id="content" class="app-content" role="main">

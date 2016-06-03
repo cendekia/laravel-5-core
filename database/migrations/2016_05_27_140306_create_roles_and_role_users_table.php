@@ -15,9 +15,11 @@ class CreateRolesAndRoleUsersTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug')->unique();
+            $table->integer('parent_role_id')->unsigned()->nullable();
             $table->string('name');
             $table->text('permissions')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->engine = 'InnoDB';
         });
