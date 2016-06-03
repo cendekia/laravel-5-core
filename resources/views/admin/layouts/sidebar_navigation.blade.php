@@ -25,12 +25,12 @@
                                 <img src="{{ asset('admin_assets') }}/images/a0.jpg" class="img-responsive rounded">
                             </div>
                             <a class="block m-t-sm" ui-toggle-class="hide, show" target="#nav, #account">
-                                <span class="block font-bold">John Smith</span>
+                                <span class="block font-bold">{{ $admin->name }}</span>
                                 <span class="pull-right auto">
                                     <i class="fa inline fa-caret-down"></i>
                                     <i class="fa none fa-caret-up"></i>
                                 </span>
-                                john.smith@gmail.com
+                                {{ $admin->email }}
                             </a>
                         </div>
 

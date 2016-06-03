@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function index()
     {
         // dd(\Admin::adminRouteList());
-        return view($this->admin . '.setting.roles.index');
+        return view('admin.setting.roles.index');
     }
 
     /**

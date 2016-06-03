@@ -3,7 +3,7 @@
 @section('content')
 	<div class="padding-out">
 		<div class="p-h-md p-v bg-white box-shadow pos-rlt">
-			<h3 class="no-margin">Settings</h3>
+			<h3 class="no-margin">{{ ucwords($activeSubMenu) }}</h3>
 		</div>
 	  	<div class="box">
 			<div class="col-md-3">
@@ -13,16 +13,16 @@
 							<img src="{{ asset('admin_assets') }}/images/a1.jpg" class="img-circle img-responsive">
 						</a>
 						<div class="m-b m-t-sm h2">
-							<span class="text-black">Mike</span>
+							<span class="text-black">{{ $admin->name }}</span>
 						</div>
 						<p>
-						Great day, Great life
+						{{ $admin->roles()->first()->name }}
 						</p>
 					</div>
 				</div>
 				<ul class="nav nav-lists b-t" ui-nav>
 					<li class="{{ ($activeSubMenu == 'account') ? 'active' : '' }}">
-						<a href>Account Settings</a>
+						<a href="{{ url('admin/setting/account') }}">Account Settings</a>
 					</li>
 					<li>
 						<a href>Notifications</a>

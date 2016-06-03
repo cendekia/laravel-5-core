@@ -4,7 +4,7 @@
     <!-- / -->
 
     <!-- Page title - Bind to $state's title -->
-    <div class="navbar-item pull-left h4">Dashboard</div>
+    <div class="navbar-item pull-left h4">{{ ucwords($activeMenu) }}</div>
     <!-- / -->
 
     <!-- Common tools -->

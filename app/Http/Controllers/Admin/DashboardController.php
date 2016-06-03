@@ -19,7 +19,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view($this->admin . '/dashboard');
+        return view('admin.dashboard');
     }
 
     /**

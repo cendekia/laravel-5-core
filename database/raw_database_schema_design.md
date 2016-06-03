@@ -10,7 +10,7 @@ There are 4 type of registered users:
 
 ### Tables
 
-Users           |Role_User (pivot)    | Roles
+users           |role_user (pivot)    | roles
 ----------------|---------------------|------
 id              |user_id              |id
 name            |role_id              |slug
@@ -19,5 +19,8 @@ password        |                     |name
 remember_token  |                     |permission
                 |                     |whitelisted_ip_addresses
 
-
-
+admin_profile   |
+----------------|
+id              |
+profile_picture |
+user_id         |
