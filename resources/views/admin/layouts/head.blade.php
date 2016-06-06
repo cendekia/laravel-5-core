@@ -11,5 +11,4 @@
 <link rel="stylesheet" href="{{ asset('admin_assets') }}/styles/material-design-icons.css" type="text/css" />
 <link rel="stylesheet" href="{{ asset('admin_assets') }}/styles/font.css" type="text/css" />
 <link rel="stylesheet" href="{{ asset('admin_assets') }}/styles/app.css" type="text/css" />
-
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{{ asset('admin_assets') }}/libs/jquery/plugins/integration/bootstrap/3/dataTables.bootstrap.css" type="text/css" />

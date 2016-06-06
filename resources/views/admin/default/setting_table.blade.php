@@ -11,11 +11,11 @@
 
             @include('admin.layouts.error_and_message')
 
-            <table class="table table-bordered table-hover bg-white" id="{{ str_slug($currentPage) }}">
+            <table class="table table-striped table-hover bg-white " id="{{ str_slug($currentPage) }}">
                 <thead>
                     <tr>
                     @foreach($datatableColumns as $column)
-                        <th>{{ ucfirst(str_replace('_', ' ', $column['name'])) }}</th>
+                        <th style="{{ ($column['name'] == 'action') ? 'width:65px' : '' }}">{{ ucfirst(str_replace('_', ' ', $column['name'])) }}</th>
                     @endforeach
                     </tr>
                 </thead>
