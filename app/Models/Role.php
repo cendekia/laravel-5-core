@@ -27,6 +27,7 @@ class Role extends Model
 
         $row->name = $request->name;
         $row->slug = $request->slug;
+        $row->parent_role_id = $request->parent_role_id;
 
         $routes = call_user_func_array('array_merge', \Admin::adminRouteList());
 

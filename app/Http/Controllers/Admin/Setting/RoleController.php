@@ -21,7 +21,7 @@ class RoleController extends Controller
         ];
 
         $this->editableFields = [
-            // 'parent_role_id' => 'text|required',
+            'parent_role_id' => 'select|null|parent_role',
             'name' => 'text|required',
             'permissions' => 'text',
             // 'whitelisted_ip_addresses' => 'text|required',
@@ -64,6 +64,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $roleLists = Role::lists('name', 'id')->all();
+
         $formAttr = [
             'query' => null,
             'url' => $this->url,
@@ -73,7 +75,7 @@ class RoleController extends Controller
             'currentPage' => 'add new role'
         ];
 
-        return view('admin.setting.roles.form', compact('formAttr'));
+        return view('admin.setting.roles.form', compact('formAttr', 'roleLists'));
     }
 
     /**
@@ -115,6 +117,8 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        $roleLists = Role::where('id', '!=', $id)->lists('name', 'id')->all();
+
         $query = $this->model->find($id);
 
         $query->permissions = Role::permissionDecodes($query->permissions);
@@ -128,7 +132,7 @@ class RoleController extends Controller
             'currentPage' => 'Edit Role: '. $query->name
         ];
 
-        return view('admin.setting.roles.form', compact('formAttr'));
+        return view('admin.setting.roles.form', compact('formAttr', 'roleLists'));
     }
 
     /**
@@ -143,6 +147,13 @@ class RoleController extends Controller
         if ($request->name) {
             $slug = str_slug($request->name);
             $request->merge(['slug' => $slug]);
+        }
+
+        if ($request->parent_role_id) {
+            $isMyChild = Role::find($request->parent_role_id);
+
+            if(isset($isMyChild) && $isMyChild->parent_role_id == $id)
+                return redirect()->back()->withErrors('Ouch! Can\'t assign its child become parent role.');
         }
 
         if (!Role::saveThese($request, $id))

@@ -12,6 +12,12 @@
             @include('admin.layouts.error_and_message')
 
             @foreach($formAttr['fields'] as $field => $attr)
+                <?php
+                    $attr = explode('|', $attr);
+                    $type = $attr[0];
+                    $required = (isset($attr[1])) ? $attr[1] : null;
+                    $label = (isset($attr[2])) ? $attr[2] : $field;
+                ?>
                 @if ($field == 'permissions')
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover bg-white">
@@ -49,14 +55,12 @@
                             </tbody>
                         </table>
                     </div>
+                @elseif($field == 'parent_role_id')
+                    <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
+                    {!! Form::select($field, $roleLists, null, ['placeholder' => 'Pick a parent role...', 'class' => 'form-control']); !!}
                 @else
                     <div class="form-group">
-                        <label>{{ ucwords($field) }}</label>
-                        <?php
-                            $attr = explode('|', $attr);
-                            $type = $attr[0];
-                            $required = ($attr[1]) ?:null;
-                        ?>
+                        <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
                         <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($formAttr['query'] && $type != 'password') ? $formAttr['query']->$field : ''}}" {{ ($required) ?:'' }}>
                     </div>
                 @endif
