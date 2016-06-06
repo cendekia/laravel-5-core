@@ -17,13 +17,13 @@ class RoleController extends Controller
         $this->url = url('admin/setting/roles');
 
         $this->columns = [
-            'id', 'name', 'whitelisted_ip_addresses', 'created_at', 'updated_at'
+            'id', 'name'
         ];
 
         $this->editableFields = [
             // 'parent_role_id' => 'text|required',
             'name' => 'text|required',
-            // 'permissions' => 'text|required',
+            'permissions' => 'text',
             // 'whitelisted_ip_addresses' => 'text|required',
         ];
     }
@@ -65,6 +65,7 @@ class RoleController extends Controller
     public function create()
     {
         $formAttr = [
+            'query' => null,
             'url' => $this->url,
             'view' => 'setting_form',
             'method' => 'post',
@@ -72,7 +73,7 @@ class RoleController extends Controller
             'currentPage' => 'add new role'
         ];
 
-        return parent::getForm(null, $formAttr);
+        return view('admin.setting.roles.form', compact('formAttr'));
     }
 
     /**
@@ -83,15 +84,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $query = new Role;
-
-        foreach ($this->editableFields as $field => $value) {
-            $query->{$field} = $request->{$field};
+        if ($request->name) {
+            $slug = str_slug($request->name);
+            $request->merge(['slug' => $slug]);
         }
 
-        $query->slug = str_slug($request->name);
 
-        if (!$query->save())
+        if (!Role::saveThese($request))
             return redirect()->back()->withErrors('Ouch! Add admin failed.');
 
         return redirect($this->url)->with('status', 'A new role has been added!');
@@ -118,7 +117,10 @@ class RoleController extends Controller
     {
         $query = $this->model->find($id);
 
+        $query->permissions = Role::permissionDecodes($query->permissions);
+
         $formAttr = [
+            'query' => $query,
             'url' => $this->url . '/' . $id,
             'view' => 'setting_form',
             'method' => 'put',
@@ -126,7 +128,7 @@ class RoleController extends Controller
             'currentPage' => 'Edit Role: '. $query->name
         ];
 
-        return parent::getForm($query, $formAttr);
+        return view('admin.setting.roles.form', compact('formAttr'));
     }
 
     /**
@@ -138,15 +140,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $query = $this->model->find($id);
-
-        foreach ($this->editableFields as $field => $value) {
-            $query->{$field} = $request->{$field};
+        if ($request->name) {
+            $slug = str_slug($request->name);
+            $request->merge(['slug' => $slug]);
         }
 
-        $query->slug = str_slug($request->name);
-
-        if (!$query->save())
+        if (!Role::saveThese($request, $id))
             return redirect()->back()->withErrors('Ouch! Update failed.');
 
         return redirect($this->url)->with('status', ucwords($this->page) . ' data updated!');

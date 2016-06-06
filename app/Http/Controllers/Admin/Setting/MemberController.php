@@ -17,7 +17,7 @@ class MemberController extends Controller
         $this->url = url('admin/setting/members');
 
         $this->columns = [
-            'id', 'name', 'email', 'created_at', 'updated_at'
+            'id', 'name', 'email', 'created_at'
         ];
 
         $this->editableFields = [

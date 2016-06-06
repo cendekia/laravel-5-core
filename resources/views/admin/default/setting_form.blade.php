@@ -6,7 +6,7 @@
             {{ ucwords($currentPage) }}
             <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="glyphicon glyphicon-chevron-left"></i>Back</a>
         </div>
-        {!! Form::model($query, ['url' => $url, 'method' => $method, 'class' => 'p-md col-md-6']) !!}
+        {!! Form::model($query, ['url' => $url, 'method' => $method, 'class' => 'p-md col-md-12']) !!}
 
             @include('admin.layouts.error_and_message')
 
