@@ -23,8 +23,8 @@ class RoleController extends Controller
         $this->editableFields = [
             'parent_role_id' => 'select|null|parent_role',
             'name' => 'text|required',
+            'whitelisted_ip_addresses' => 'text',
             'permissions' => 'text',
-            // 'whitelisted_ip_addresses' => 'text|required',
         ];
     }
 
@@ -66,8 +66,10 @@ class RoleController extends Controller
     {
         $roleLists = Role::lists('name', 'id')->all();
 
+        $currentIp = (object) ['whitelisted_ip_addresses' => \Request::ip()];
+
         $formAttr = [
-            'query' => null,
+            'query' => $currentIp,
             'url' => $this->url,
             'view' => 'setting_form',
             'method' => 'post',
@@ -150,9 +152,9 @@ class RoleController extends Controller
         }
 
         if ($request->parent_role_id) {
-            $isMyChild = Role::find($request->parent_role_id);
+            $targetRole = Role::find($request->parent_role_id);
 
-            if(isset($isMyChild) && $isMyChild->parent_role_id == $id)
+            if(isset($targetRole) && $targetRole->parent_role_id == $id)
                 return redirect()->back()->withErrors('Ouch! Can\'t assign its child become parent role.');
         }
 

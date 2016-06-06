@@ -59,9 +59,16 @@
                     <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
                     {!! Form::select($field, $roleLists, null, ['placeholder' => 'Pick a parent role...', 'class' => 'form-control']); !!}
                 @else
+                    <?php
+                        $value = '';
+                        if ($formAttr['query'] && $type != 'password') {
+                            $value = isset($formAttr['query']->$field) ? $formAttr['query']->$field : '';
+                        }
+                    ?>
+
                     <div class="form-group">
                         <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
-                        <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($formAttr['query'] && $type != 'password') ? $formAttr['query']->$field : ''}}" {{ ($required) ?:'' }}>
+                        <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ $value }}" {{ ($required) ?:'' }}>
                     </div>
                 @endif
             @endforeach
