@@ -214,7 +214,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
         'JavaScript' => Laracasts\Utilities\JavaScript\JavaScript::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+        'Datatables' => Yajra\Datatables\Datatables::class,
     ],
 
 ];

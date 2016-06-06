@@ -8,3 +8,8 @@
 <script src="{{ asset('admin_assets') }}/scripts/ui-nav.js"></script>
 <script src="{{ asset('admin_assets') }}/scripts/ui-toggle.js"></script>
 <script src="{{ asset('admin_assets') }}/scripts/ui-waves.js"></script>
+
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+@stack('scripts')

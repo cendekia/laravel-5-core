@@ -16,6 +16,7 @@ class Controller extends BaseController
     {
     	$this->navigation = (\Request::segment(2)) ?:null;
     	$this->subNavigation = (\Request::segment(3)) ?:null;
+        $this->page = ($this->subNavigation) ?:$this->navigation;
         $this->admin = \Auth::user();
 
         view()->share([
@@ -24,5 +25,24 @@ class Controller extends BaseController
             'isLogin' => \Auth::check(),
             'admin' => $this->admin
         ]);
+    }
+
+    public function getTable($columns, $tableUrl, $view = 'default_table', $tableName = null)
+    {
+        $tableName = ($tableName)?:$this->page;
+        $datatableColumns = [];
+
+        foreach ($columns as $column) {
+            $datatableColumns[] = [
+                'data' => $column,
+                'name' => $column
+            ];
+        }
+
+        \JavaScript::put([
+            'datatable_columns' => $datatableColumns
+        ]);
+
+        return view('admin.default.' . $view, compact('datatableColumns', 'tableUrl', 'tableName'));
     }
 }

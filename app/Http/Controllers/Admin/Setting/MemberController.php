@@ -7,14 +7,28 @@ use App\Http\Requests;
 use App\User;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
+class MemberController extends Controller
 {
-    public function __construct()
+    public function __construct(User $model)
     {
         parent::__construct();
 
-        $this->account = ($this->admin) ? User::whereId($this->admin->id)->with('adminProfile')->first() : null;
+        $this->model = $model;
+
+        $this->columns = [
+            'id', 'name', 'email', 'created_at', 'updated_at'
+        ];
+
+        $this->datatableUrl = url('admin/setting/members/ajax');
     }
+
+    public function getData()
+    {
+        $query = $this->model->select($this->columns);
+
+        return \Datatables::of($query)->make(true);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +36,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $account = $this->account;
-
-        return view('admin.setting.account.index', compact('account'));
+        return parent::getTable($this->columns, $this->datatableUrl, 'setting_table');
     }
 
     /**
@@ -45,24 +57,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $account = $this->account;
-        $account->name = $request->name;
-
-        if ($request->current_password != '') {
-            if (!\Hash::check($request->current_password, $account->password)) {
-                return redirect()->back()->withErrors("Your current password doesn't match.");
-            } elseif ($request->password && $request->password != $request->password_confirmation) {
-                return redirect()->back()->withErrors("Your new password doesn't match with password confirmation.");
-            }
-
-            $account->password = \Hash::make($request->password);
-
-            if ($account->save()) {
-                return redirect()->back()->with('status', 'Your password has been updated.');
-            }
-        }
-
-        return redirect()->back()->with('status', 'Profile updated!');
+        //
     }
 
     /**

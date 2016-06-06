@@ -26,7 +26,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 
 	Route::group(['prefix' => 'setting', 'namespace' => 'Setting', 'middleware' => []], function() {
 
-    	Route::resource('/account', 'AccountController');
+        Route::resource('/account', 'AccountController');
+        Route::get('/members/ajax', ['uses' => 'MemberController@getData', 'as' => 'admin.setting.members.ajax']);
+        Route::resource('/members', 'MemberController');
     	Route::resource('/roles', 'RoleController');
 
 	});

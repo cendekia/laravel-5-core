@@ -24,17 +24,8 @@
 					<li class="{{ ($activeSubMenu == 'account') ? 'active' : '' }}">
 						<a href="{{ url('admin/setting/account') }}">Account Settings</a>
 					</li>
-					<li>
-						<a href>Notifications</a>
-					</li>
-					<li>
-						<a href>Security</a>
-					</li>
-					<li>
-						<a href>Organizations</a>
-					</li>
-					<li>
-						<a href>Members</a>
+					<li class="{{ ($activeSubMenu == 'members') ? 'active' : '' }}">
+						<a href="{{ url('admin/setting/members') }}">Members</a>
 					</li>
 					<li class="{{ ($activeSubMenu == 'roles') ? 'active' : '' }}">
 						<a href="{{ url('admin/setting/roles') }}">Roles</a>
