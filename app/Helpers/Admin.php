@@ -22,14 +22,9 @@ class Admin {
         return $routeNameList;
     }
 
-    public function addButton($url)
-    {
-        return '<a href="'. $url .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-erase"></i> Add</a>';
-    }
-
     public function editButton($url)
     {
-        return '<a href="'. $url .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;';
+        return '<a href="'. $url .'" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;';
     }
 
     public function deleteButton($url)

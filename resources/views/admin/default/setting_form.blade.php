@@ -2,7 +2,10 @@
 
 @section('sub_content')
     <div class="col-md-9 b-l bg-white bg-auto">
-        <div class="p-md bg-light lt b-b font-bold">{{ ucwords($currentPage) }}</div>
+        <div class="p-md bg-light lt b-b font-bold">
+            {{ ucwords($currentPage) }}
+            <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="glyphicon glyphicon-chevron-left"></i>Back</a>
+        </div>
         {!! Form::model($query, ['url' => $url, 'method' => $method, 'class' => 'p-md col-md-6']) !!}
 
             @include('admin.layouts.error_and_message')
@@ -15,7 +18,7 @@
                         $type = $attr[0];
                         $required = ($attr[1]) ?:null;
                     ?>
-                    <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ $query->$field }}" {{ ($required) ?:'' }}>
+                    <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($query && $type != 'password') ? $query->$field : ''}}" {{ ($required) ?:'' }}>
                 </div>
             @endforeach
 

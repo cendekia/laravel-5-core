@@ -2,7 +2,10 @@
 
 @section('sub_content')
     <div class="col-md-9 b-l bg-white bg-auto">
-        <div class="p-md bg-light lt b-b font-bold">{{ ucwords($currentPage) }}</div>
+        <div class="p-md bg-light lt b-b font-bold">
+            {{ ucwords($currentPage) }}
+            <a href="{{ $url . '/create' }}" class="btn btn-success pull-right">Add new</a>
+        </div>
 
         <div class="table-responsive" style="padding: 25px;">
 
@@ -27,7 +30,7 @@
             $('#' + '{{ str_slug($currentPage) }}').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! $tableUrl !!}',
+                ajax: '{!! $url . '/ajax' !!}',
                 columns: webarq.datatable_columns
             });
         });

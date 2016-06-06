@@ -15,7 +15,6 @@ class MemberController extends Controller
 
         $this->model = $model;
         $this->url = url('admin/setting/members');
-        $this->datatableUrl = $this->url . '/ajax';
 
         $this->columns = [
             'id', 'name', 'email', 'created_at', 'updated_at'
@@ -47,7 +46,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return parent::getTable($this->columns, $this->datatableUrl, 'setting_table');
+        return parent::getTable($this->columns, $this->url, 'setting_table');
     }
 
     /**
@@ -57,7 +56,15 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //
+        $formAttr = [
+            'url' => $this->url,
+            'view' => 'setting_form',
+            'method' => 'post',
+            'fields' => $this->editableFields,
+            'currentPage' => 'add new member'
+        ];
+
+        return parent::getForm(null, $formAttr);
     }
 
     /**
@@ -68,7 +75,16 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $query = new User;
+        $query->name = $request->name;
+        $query->email = $request->email;
+        $query->password = \Hash::make($request->password);
+        $query->restricted_access = 1;
+
+        if (!$query->save())
+            return redirect()->back()->withErrors('Ouch! Add admin failed.');
+
+        return redirect($this->url)->with('status', $query->email .' has been added!');
     }
 
     /**
@@ -96,7 +112,8 @@ class MemberController extends Controller
             'url' => $this->url . '/' . $id,
             'view' => 'setting_form',
             'method' => 'put',
-            'fields' => $this->editableFields
+            'fields' => $this->editableFields,
+            'currentPage' => 'Edit member: '. $query->name
         ];
 
         return parent::getForm($query, $formAttr);
@@ -113,6 +130,7 @@ class MemberController extends Controller
     {
         $query = $this->model->find($id);
         $query->name = $request->name;
+        $query->email = $request->email;
         $query->password = \Hash::make($request->password);
 
         if (!$query->save())

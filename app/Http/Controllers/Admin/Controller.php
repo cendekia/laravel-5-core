@@ -27,7 +27,7 @@ class Controller extends BaseController
         ]);
     }
 
-    public function getTable($columns, $tableUrl, $view = 'default_table', $currentPage = null)
+    public function getTable($columns, $url, $view = 'default_table', $currentPage = null)
     {
         $currentPage = ($currentPage)?:$this->page;
         $datatableColumns = [];
@@ -45,7 +45,7 @@ class Controller extends BaseController
             'datatable_columns' => $datatableColumns
         ]);
 
-        return view('admin.default.' . $view, compact('datatableColumns', 'tableUrl', 'currentPage'));
+        return view('admin.default.' . $view, compact('datatableColumns', 'url', 'currentPage'));
     }
 
     public function getForm($query, $formAttr)
