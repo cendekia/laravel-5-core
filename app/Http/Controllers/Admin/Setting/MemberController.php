@@ -130,7 +130,7 @@ class MemberController extends Controller
     public function destroy($id)
     {
         if ($id == 1) {
-            return redirect()->back()->withErrors('Ouch! You can\'t delete the <strong>alpha omega</strong> member.');
+            return redirect()->back()->withErrors('Ouch! You can\'t delete the <strong>alpha</strong> user.');
         } elseif ($id == $this->admin->id) {
             return redirect()->back()->withErrors('Ouch! You can\'t delete yourself.');
         }
