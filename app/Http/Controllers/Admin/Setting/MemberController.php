@@ -14,19 +14,30 @@ class MemberController extends Controller
         parent::__construct();
 
         $this->model = $model;
+        $this->url = url('admin/setting/members');
+        $this->datatableUrl = $this->url . '/ajax';
 
         $this->columns = [
             'id', 'name', 'email', 'created_at', 'updated_at'
         ];
 
-        $this->datatableUrl = url('admin/setting/members/ajax');
+        $this->editableFields = [
+            'name' => 'text|required',
+            'email' => 'email|required',
+            'password' => 'password|required'
+        ];
     }
 
     public function getData()
     {
         $query = $this->model->select($this->columns);
 
-        return \Datatables::of($query)->make(true);
+        return \Datatables::of($query)
+            ->addColumn('action', function ($query) {
+                $actionUrl = $this->url.'/'.$query->id;
+
+                return \Admin::editButton($actionUrl.'/edit').\Admin::deleteButton($actionUrl.'/edit');
+            })->make(true);
     }
 
     /**
@@ -79,7 +90,16 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        //
+        $query = $this->model->find($id);
+
+        $formAttr = [
+            'url' => $this->url . '/' . $id,
+            'view' => 'setting_form',
+            'method' => 'put',
+            'fields' => $this->editableFields
+        ];
+
+        return parent::getForm($query, $formAttr);
     }
 
     /**
@@ -91,7 +111,14 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $query = $this->model->find($id);
+        $query->name = $request->name;
+        $query->password = \Hash::make($request->password);
+
+        if (!$query->save())
+            return redirect()->back()->withErrors('Ouch! Update failed.');
+
+        return redirect($this->url)->with('status', ucwords($this->page) . ' data updated!');
     }
 
     /**

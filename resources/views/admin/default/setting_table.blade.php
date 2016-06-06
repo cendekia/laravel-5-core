@@ -2,13 +2,17 @@
 
 @section('sub_content')
     <div class="col-md-9 b-l bg-white bg-auto">
-        <div class="p-md bg-light lt b-b font-bold">{{ ucwords($tableName) }}</div>
+        <div class="p-md bg-light lt b-b font-bold">{{ ucwords($currentPage) }}</div>
+
         <div class="table-responsive" style="padding: 25px;">
-            <table class="table table-bordered table-hover bg-white" id="{{ str_slug($tableName) }}">
+
+            @include('admin.layouts.error_and_message')
+
+            <table class="table table-bordered table-hover bg-white" id="{{ str_slug($currentPage) }}">
                 <thead>
                     <tr>
                     @foreach($datatableColumns as $column)
-                        <th>{{ $column['name'] }}</th>
+                        <th>{{ ucfirst(str_replace('_', ' ', $column['name'])) }}</th>
                     @endforeach
                     </tr>
                 </thead>
@@ -20,7 +24,7 @@
 @push('scripts')
     <script>
         $(function() {
-            $('#' + '{{ str_slug($tableName) }}').DataTable({
+            $('#' + '{{ str_slug($currentPage) }}').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{!! $tableUrl !!}',

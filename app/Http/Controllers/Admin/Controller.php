@@ -27,9 +27,9 @@ class Controller extends BaseController
         ]);
     }
 
-    public function getTable($columns, $tableUrl, $view = 'default_table', $tableName = null)
+    public function getTable($columns, $tableUrl, $view = 'default_table', $currentPage = null)
     {
-        $tableName = ($tableName)?:$this->page;
+        $currentPage = ($currentPage)?:$this->page;
         $datatableColumns = [];
 
         foreach ($columns as $column) {
@@ -39,10 +39,23 @@ class Controller extends BaseController
             ];
         }
 
+        $datatableColumns[] = ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false];
+
         \JavaScript::put([
             'datatable_columns' => $datatableColumns
         ]);
 
-        return view('admin.default.' . $view, compact('datatableColumns', 'tableUrl', 'tableName'));
+        return view('admin.default.' . $view, compact('datatableColumns', 'tableUrl', 'currentPage'));
+    }
+
+    public function getForm($query, $formAttr)
+    {
+        $url = (isset($formAttr['url'])) ? $formAttr['url'] : '#';
+        $view = (isset($formAttr['view'])) ? $formAttr['view'] : 'default_form';
+        $method = (isset($formAttr['method'])) ? $formAttr['method'] : 'post';
+        $currentPage = (isset($formAttr['currentPage'])) ? $formAttr['currentPage'] : $this->page;
+        $fields = (isset($formAttr['fields'])) ? $formAttr['fields'] : null;
+
+        return view('admin.default.' . $view, compact('query', 'url', 'currentPage', 'method', 'fields'));
     }
 }
