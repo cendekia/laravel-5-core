@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests;
+use App\Models\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,7 @@ class MemberController extends Controller
 
         $this->editableFields = [
             'name' => 'text|required',
+            'role' => 'select|required',
             'email' => 'email|required',
             'password' => 'password|required'
         ];
@@ -56,6 +58,8 @@ class MemberController extends Controller
      */
     public function create()
     {
+        $roleLists = Role::lists('name', 'id')->all();
+
         $formAttr = [
             'url' => $this->url,
             'view' => 'setting_form',

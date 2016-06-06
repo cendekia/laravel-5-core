@@ -11,14 +11,19 @@
             @include('admin.layouts.error_and_message')
 
             @foreach($fields as $field => $attr)
+                <?php
+                    $attr = explode('|', $attr);
+                    $type = $attr[0];
+                    $required = (isset($attr[1])) ? $attr[1] : null;
+                    $label = (isset($attr[2])) ? $attr[2] : $field;
+                ?>
                 <div class="form-group">
-                    <label>{{ ucwords($field) }}</label>
-                    <?php
-                        $attr = explode('|', $attr);
-                        $type = $attr[0];
-                        $required = ($attr[1]) ?:null;
-                    ?>
-                    <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($query && $type != 'password') ? $query->$field : ''}}" {{ ($required) ?:'' }}>
+                    <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
+                    @if($type == 'select')
+                        {!! Form::select($field, [], null, ['placeholder' => 'Select...', 'class' => 'form-control']); !!}
+                    @else
+                        <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($query && $type != 'password') ? $query->$field : ''}}" {{ ($required) ?:'' }}>
+                    @endif
                 </div>
             @endforeach
 
