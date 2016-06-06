@@ -34,6 +34,6 @@ class Admin {
 
     public function deleteButton($url)
     {
-        return '<a href="'. $url .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-erase"></i></a>';
+        return view('admin.default.delete_button', compact('url'));
     }
 }

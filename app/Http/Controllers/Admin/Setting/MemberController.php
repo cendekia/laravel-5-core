@@ -36,7 +36,7 @@ class MemberController extends Controller
             ->addColumn('action', function ($query) {
                 $actionUrl = $this->url.'/'.$query->id;
 
-                return \Admin::editButton($actionUrl.'/edit').\Admin::deleteButton($actionUrl.'/edit');
+                return \Admin::editButton($actionUrl.'/edit').\Admin::deleteButton($actionUrl);
             })->make(true);
     }
 
@@ -129,6 +129,17 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id == 1) {
+            return redirect()->back()->withErrors('Ouch! You can\'t delete the <strong>alpha omega</strong> member.');
+        } elseif ($id == $this->admin->id) {
+            return redirect()->back()->withErrors('Ouch! You can\'t delete yourself.');
+        }
+
+        $query = $this->model->find($id);
+
+        if (!$query->delete())
+            return redirect()->back()->withErrors('Ouch! Delete failed.');
+
+        return redirect()->back()->with('status', $query->email . ' has been deleted!');
     }
 }
