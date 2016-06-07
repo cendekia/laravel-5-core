@@ -21,6 +21,9 @@
 			</div>
 
             {!! Form::open(['url' => 'admin/signin']) !!}
+
+                @include('admin.layouts.error_and_message')
+
 				<div class="md-form-group">
 					<input type="email" name="email" class="md-input" ng-model="user.email" required>
 					<label>Email</label>
