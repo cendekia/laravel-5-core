@@ -38,21 +38,16 @@
                         <div id="nav">
                             <nav ui-nav>
                                 <ul class="nav">
-                                    <li>
-                                        <a md-ink-ripple href="{{ url('admin/setting/account') }}">
-                                            <span>Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a md-ink-ripple href="page.document.html">
-                                            <span>Document</span>
-                                        </a>
-                                    </li>
-                                    <li class="m-b-sm">
-                                        <a md-ink-ripple href="../angular">
-                                            <span>Angular Version</span>
-                                        </a>
-                                    </li>
+                                    @foreach(\Admin::adminRouteList() as $nav => $routes)
+                                        @if ($nav != 'setting' && \Admin::isHasAccess($routes, $admin))
+                                            <li>
+                                                <a md-ink-ripple href="#">
+                                                    <i class="icon mdi-editor-format-list-bulleted i-20"></i>
+                                                    <span>{{ ucwords($nav) }}</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </nav>
                         </div>
@@ -61,12 +56,6 @@
                         <div id="account" class="hide m-v-xs">
                             <nav>
                                 <ul class="nav">
-                                    <li>
-                                        <a md-ink-ripple href="page.profile.html">
-                                            <i class="icon mdi-action-perm-contact-cal i-20"></i>
-                                            <span>My Profile</span>
-                                        </a>
-                                    </li>
                                     <li class="{{ Attr::isActive('setting', $activeMenu) }}">
                                         <a md-ink-ripple href="{{ url('admin/setting/account') }}">
                                             <i class="icon mdi-action-settings i-20"></i>
@@ -98,7 +87,7 @@
             <nav>
                 <ul class="nav b-t b">
                     <li>
-                        <a href="http://themeforest.net/item/materil-responsive-admin-dashboard-template/11062969" target="_blank" md-ink-ripple>
+                        <a href="mailto:{{ env('ADMIN_EMAIL', 'info@webarq.com') }}" target="_blank" md-ink-ripple>
                         <i class="icon mdi-action-help i-20"></i>
                         <span>Help &amp; Feedback</span>
                         </a>

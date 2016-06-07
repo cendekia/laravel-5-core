@@ -24,6 +24,21 @@ class Admin {
         return $routeNameList;
     }
 
+    public function isHasAccess($routes, $user = null)
+    {
+        $hasAccess = false;
+        $user = ($user) ?:\Auth::user();
+        $role = $user->roles()->first();
+
+        foreach ($routes as $route) {
+            $hasAccess = \App\User::hasAccess($route, $user);
+
+            if ($hasAccess == true) break;
+        }
+
+        return ($role->id == 1) ? true : $hasAccess;
+    }
+
     public function editButton($url)
     {
         return '<a href="'. $url .'" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;';
