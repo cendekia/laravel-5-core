@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
@@ -29,6 +30,7 @@ class Controller extends BaseController
 
     public function getTable($columns, $url, $view = 'default_table', $currentPage = null)
     {
+        $admin = $this->admin;
         $currentPage = ($currentPage)?:$this->page;
         $datatableColumns = [];
 
@@ -45,7 +47,9 @@ class Controller extends BaseController
             'datatable_columns' => $datatableColumns
         ]);
 
-        return view('admin.default.' . $view, compact('datatableColumns', 'url', 'currentPage'));
+        $actionButtons = \Admin::crudCheck($admin);
+
+        return view('admin.default.' . $view, compact('datatableColumns', 'url', 'currentPage', 'actionButtons'));
     }
 
     public function getForm($query, $formAttr, $data = [])

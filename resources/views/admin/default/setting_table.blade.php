@@ -4,7 +4,9 @@
     <div class="col-md-9 b-l bg-white bg-auto">
         <div class="p-md bg-light lt b-b font-bold">
             {{ ucwords($currentPage) }}
-            <a href="{{ $url . '/create' }}" class="btn btn-success pull-right">Add new</a>
+            @if ($actionButtons['create'])
+                <a href="{{ $url . '/create' }}" class="btn btn-success pull-right">Add new</a>
+            @endif
         </div>
 
         <div class="table-responsive" style="padding: 25px;">

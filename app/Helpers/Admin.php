@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
 
+use App\User;
+
 
 class Admin {
 
@@ -59,13 +61,40 @@ class Admin {
         return ($role->id == 1) ? true : $hasAccess;
     }
 
-    public function editButton($url)
+    public function crudCheck($admin = null)
     {
-        return '<a href="'. $url .'" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;';
+        //check if alpha
+        $superAllow = false;
+        $admin = ($admin) ?: \Auth::user();
+
+        if ($admin->roles()->first()->id == 1) {
+            $superAllow = true;
+        }
+
+        //crud button permission check
+        $action = \Route::getCurrentRoute()->getAction();
+        $baseAction = str_replace('index', '', $action['as'], $count);
+        $baseAction = ($count > 0) ? $baseAction : str_replace('ajax', '', $action['as'], $count);
+
+        return [
+            'create' => ($superAllow) ?: User::hasAccess($baseAction.'create', $admin),
+            'edit' => ($superAllow) ?: User::hasAccess($baseAction.'edit', $admin),
+            'destroy' => ($superAllow) ?: User::hasAccess($baseAction.'destroy', $admin),
+        ];
+
     }
 
-    public function deleteButton($url)
+    public function editButton($url, $admin = null)
     {
-        return view('admin.default.delete_button', compact('url'));
+        $allow = \Admin::crudCheck($admin);
+
+        return ($allow['edit']) ? '<a href="'. $url .'" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;' : '';
+    }
+
+    public function deleteButton($url, $admin = null)
+    {
+        $allow = \Admin::crudCheck($admin);
+
+        return ($allow['destroy']) ? view('admin.default.delete_button', compact('url')) : '';
     }
 }

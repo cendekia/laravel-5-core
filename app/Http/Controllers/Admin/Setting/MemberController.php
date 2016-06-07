@@ -32,13 +32,14 @@ class MemberController extends Controller
 
     public function getData()
     {
+        $admin = $this->admin;
         $query = $this->model->select($this->columns);
 
         return \Datatables::of($query)
-            ->addColumn('action', function ($query) {
+            ->addColumn('action', function ($query) use ($admin) {
                 $actionUrl = $this->url.'/'.$query->id;
 
-                return \Admin::editButton($actionUrl.'/edit').\Admin::deleteButton($actionUrl);
+                return \Admin::editButton($actionUrl.'/edit', $admin).\Admin::deleteButton($actionUrl, $admin);
             })->make(true);
     }
 
@@ -154,6 +155,10 @@ class MemberController extends Controller
         if (!$query->save()) {
             return redirect()->back()->withErrors('Ouch! Update failed.');
         } else {
+            if (count($query->roles())) {
+                $query->roles()->detach();
+            }
+
             $query->roles()->attach($request->role);
         }
 
