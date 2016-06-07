@@ -24,6 +24,26 @@ class Admin {
         return $routeNameList;
     }
 
+    public function adminUrlList()
+    {
+        $urlList = [];
+        foreach (\Route::getRoutes() as $value) {
+            $middlewares = $value->getAction()['middleware'];
+
+            if (isset($middlewares) && is_array($middlewares) && in_array('restrictAccess', $middlewares)) {
+                if (isset($value->getAction()['as'])) {
+                    $name = explode('.', $value->getAction()['as'])[1];
+                    $name = (strlen($name) < 4) ? strtoupper($name) : $name;
+
+                    if ($name !== "" && !isset($urlList[$name]))
+                        $urlList[$name] = url($value->getUri());
+                }
+            }
+        }
+
+        return $urlList;
+    }
+
     public function isHasAccess($routes, $user = null)
     {
         $hasAccess = false;

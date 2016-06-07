@@ -38,10 +38,11 @@
                         <div id="nav">
                             <nav ui-nav>
                                 <ul class="nav">
+                                    <?php $urlList = \Admin::adminUrlList(); ?>
                                     @foreach(\Admin::adminRouteList() as $nav => $routes)
                                         @if ($nav != 'setting' && \Admin::isHasAccess($routes, $admin))
-                                            <li>
-                                                <a md-ink-ripple href="#">
+                                            <li class="{{ Attr::isActive($nav, $activeMenu) }}">
+                                                <a md-ink-ripple href="{{ $urlList[$nav] }}">
                                                     <i class="icon mdi-editor-format-list-bulleted i-20"></i>
                                                     <span>{{ ucwords($nav) }}</span>
                                                 </a>
