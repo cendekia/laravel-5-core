@@ -48,7 +48,7 @@ class Controller extends BaseController
         return view('admin.default.' . $view, compact('datatableColumns', 'url', 'currentPage'));
     }
 
-    public function getForm($query, $formAttr)
+    public function getForm($query, $formAttr, $data = [])
     {
         $url = (isset($formAttr['url'])) ? $formAttr['url'] : '#';
         $view = (isset($formAttr['view'])) ? $formAttr['view'] : 'default_form';
@@ -56,6 +56,6 @@ class Controller extends BaseController
         $currentPage = (isset($formAttr['currentPage'])) ? $formAttr['currentPage'] : $this->page;
         $fields = (isset($formAttr['fields'])) ? $formAttr['fields'] : null;
 
-        return view('admin.default.' . $view, compact('query', 'url', 'currentPage', 'method', 'fields'));
+        return view('admin.default.' . $view, compact('query', 'url', 'currentPage', 'method', 'fields', 'data'));
     }
 }

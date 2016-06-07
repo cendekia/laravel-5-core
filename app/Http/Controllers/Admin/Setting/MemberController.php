@@ -23,7 +23,7 @@ class MemberController extends Controller
 
         $this->editableFields = [
             'name' => 'text|required',
-            'role' => 'select|required',
+            'role' => 'select|required|role|roleLists',
             'email' => 'email|required',
             'password' => 'password|required'
         ];
@@ -58,7 +58,9 @@ class MemberController extends Controller
      */
     public function create()
     {
-        $roleLists = Role::lists('name', 'id')->all();
+        $data = [
+            'roleLists' => Role::lists('name', 'id')->all()
+        ];
 
         $formAttr = [
             'url' => $this->url,
@@ -68,7 +70,7 @@ class MemberController extends Controller
             'currentPage' => 'add new member'
         ];
 
-        return parent::getForm(null, $formAttr);
+        return parent::getForm(null, $formAttr, $data);
     }
 
     /**
@@ -111,6 +113,8 @@ class MemberController extends Controller
     public function edit($id)
     {
         $query = $this->model->find($id);
+        $role = $query->roles()->first();
+        $query->role = ($role) ? $role->id : null;
 
         $formAttr = [
             'url' => $this->url . '/' . $id,
@@ -120,7 +124,11 @@ class MemberController extends Controller
             'currentPage' => 'Edit Member: '. $query->name
         ];
 
-        return parent::getForm($query, $formAttr);
+        $data = [
+            'roleLists' => Role::lists('name', 'id')->all()
+        ];
+
+        return parent::getForm($query, $formAttr, $data);
     }
 
     /**
@@ -137,8 +145,11 @@ class MemberController extends Controller
         $query->email = $request->email;
         $query->password = \Hash::make($request->password);
 
-        if (!$query->save())
+        if (!$query->save()) {
             return redirect()->back()->withErrors('Ouch! Update failed.');
+        } else {
+            $query->roles()->attach($request->role);
+        }
 
         return redirect($this->url)->with('status', ucwords($this->page) . ' data updated!');
     }
@@ -158,9 +169,13 @@ class MemberController extends Controller
         }
 
         $query = $this->model->find($id);
+        $role = $query->roles()->first();
 
-        if (!$query->delete())
+        if (!$query->delete()) {
             return redirect()->back()->withErrors('Ouch! Delete failed.');
+        } elseif($role) {
+            $query->roles()->detach($role->id);
+        }
 
         return redirect()->back()->with('status', $query->email . ' has been deleted!');
     }

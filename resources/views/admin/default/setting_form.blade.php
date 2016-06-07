@@ -16,11 +16,12 @@
                     $type = $attr[0];
                     $required = (isset($attr[1])) ? $attr[1] : null;
                     $label = (isset($attr[2])) ? $attr[2] : $field;
+                    $dataKey = (isset($attr[3])) ? $attr[3] : null;
                 ?>
                 <div class="form-group">
                     <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
                     @if($type == 'select')
-                        {!! Form::select($field, [], null, ['placeholder' => 'Select...', 'class' => 'form-control']); !!}
+                        {!! Form::select($field, isset($data[$dataKey]) ? $data[$dataKey] : [], null, ['placeholder' => 'Select...', 'class' => 'form-control']); !!}
                     @else
                         <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($query && $type != 'password') ? $query->$field : ''}}" {{ ($required) ?:'' }}>
                     @endif
