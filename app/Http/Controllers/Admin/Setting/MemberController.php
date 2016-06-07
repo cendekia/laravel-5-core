@@ -21,6 +21,7 @@ class MemberController extends Controller
             'id', 'name', 'email', 'created_at'
         ];
 
+        // fieldType|required|label|data
         $this->editableFields = [
             'name' => 'text|required',
             'role' => 'select|required|role|roleLists',
@@ -45,7 +46,7 @@ class MemberController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return parent::getTable($this->columns, $this->url, 'setting_table');
