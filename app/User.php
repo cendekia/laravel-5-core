@@ -49,4 +49,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(AdminProfile::class);
     }
+
+    public static function hasAccess($route)
+    {
+        $role = \Auth::user()->roles()->first();
+        $permissions = json_decode($role->permissions, true);
+
+        return isset($permissions[$route]);
+    }
 }
