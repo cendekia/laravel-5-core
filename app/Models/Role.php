@@ -16,9 +16,9 @@ class Role extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $create = ['index', 'create', 'store'];
-    protected $edit = ['index', 'edit', 'update'];
-    protected $delete = ['index', 'destroy'];
+    protected $create = ['index', 'create', 'store', 'ajax'];
+    protected $edit = ['index', 'edit', 'update', 'ajax'];
+    protected $delete = ['index', 'destroy', 'ajax'];
     protected $defaultRoute = 'admin..index'; //default route for all roles
 
     public static function saveThese($request, $id = null)
@@ -46,6 +46,7 @@ class Role extends Model
             $permissions = self::permissionEncodes($request, 'create');
             $permissions += self::permissionEncodes($request, 'edit');
             $permissions += self::permissionEncodes($request, 'delete');
+            $permissions += self::permissionEncodes($request, 'ajax');
         }
 
         $row->permissions = json_encode($permissions);
