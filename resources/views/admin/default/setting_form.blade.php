@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label>{{ ucwords(str_replace('_', ' ', $label)) }}</label>
                     @if($type == 'select')
-                        {!! Form::select($field, isset($data[$dataKey]) ? $data[$dataKey] : [], null, ['placeholder' => 'Select...', 'class' => 'form-control']); !!}
+                        {!! Form::select($field, isset($data[$dataKey]) ? $data[$dataKey] : [], null, ['placeholder' => 'Select...', 'class' => 'form-control', 'required' => $required]); !!}
                     @else
                         <input type="{{ $type }}" name="{{ $field }}" class="form-control" value="{{ ($query && $type != 'password') ? $query->$field : ''}}" {{ ($required) ?:'' }}>
                     @endif

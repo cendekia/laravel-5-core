@@ -117,6 +117,8 @@ class MemberController extends Controller
         $role = $query->roles()->first();
         $query->role = ($role) ? $role->id : null;
 
+        $this->editableFields['password'] = 'password';
+
         $formAttr = [
             'url' => $this->url . '/' . $id,
             'view' => 'setting_form',
@@ -144,7 +146,10 @@ class MemberController extends Controller
         $query = $this->model->find($id);
         $query->name = $request->name;
         $query->email = $request->email;
-        $query->password = \Hash::make($request->password);
+
+        if (!empty($request->password)) {
+            $query->password = \Hash::make($request->password);
+        }
 
         if (!$query->save()) {
             return redirect()->back()->withErrors('Ouch! Update failed.');
