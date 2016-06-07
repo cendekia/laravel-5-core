@@ -8,7 +8,9 @@ class Admin {
     {
         $routeNameList = [];
         foreach (\Route::getRoutes() as $value) {
-            // if (isset($value->getAction()['middleware']) && $value->getAction()['middleware'] == ['admin.auth', 'audit.report']) {
+            $middlewares = $value->getAction()['middleware'];
+
+            if (isset($middlewares) && is_array($middlewares) && in_array('restrictAccess', $middlewares)) {
                 if (isset($value->getAction()['as'])) {
                     $name = explode('.', $value->getAction()['as'])[1];
                     $name = (strlen($name) < 4) ? strtoupper($name) : $name;
@@ -16,7 +18,7 @@ class Admin {
                     if ($name !== "")
                         $routeNameList[$name][] = $value->getAction()['as'];
                 }
-            // }
+            }
         }
 
         return $routeNameList;
