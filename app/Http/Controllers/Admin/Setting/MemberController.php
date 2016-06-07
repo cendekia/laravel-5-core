@@ -21,7 +21,7 @@ class MemberController extends Controller
             'id', 'name', 'email', 'created_at'
         ];
 
-        /*fieldType|required|label|data
+        //fieldType|required|label|data
         $this->editableFields = [
             'name' => 'text|required',
             'role' => 'select|required|role|roleLists',
