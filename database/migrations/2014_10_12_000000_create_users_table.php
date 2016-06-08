@@ -24,10 +24,10 @@ class CreateUsersTable extends Migration
         });
 
         $admin = new \App\User;
-        $admin->name = 'Lippo Administrator';
-        $admin->email = 'info@webarq.com';
+        $admin->name = 'Super Administrator';
+        $admin->email = env('ADMIN_DEFAULT_EMAIL', 'me@cendekiapp.com');
         $admin->restricted_access = 1;
-        $admin->password = \Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'webarq'));
+        $admin->password = \Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'laravel5core'));
         $admin->save();
     }
 
