@@ -1,17 +1,18 @@
-@extends('admin.setting.index')
+@extends('admin.layouts.master')
 
-@section('sub_content')
-    <div class="col-md-9 b-l bg-white bg-auto">
-        <div class="p-md bg-light lt b-b font-bold">
-            {{ ucwords($pageTitle) }}
+@section('content')
+
+    @include('admin.layouts.error_and_message')
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="min-height: 65px;">
+            <h4 class="pull-left">{{ ucwords($pageTitle) }}</h4>
             @if ($actionButtons['create'])
                 <a href="{{ $url . '/create' }}" class="btn btn-success pull-right">Add new</a>
             @endif
         </div>
 
-        <div class="table-responsive" style="padding: 25px;">
-
-            @include('admin.layouts.error_and_message')
+        <div class="table-responsive">
 
             <table class="table table-striped table-hover bg-white " id="{{ str_slug($pageTitle) }}">
                 <thead>

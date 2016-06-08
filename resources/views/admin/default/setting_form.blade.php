@@ -3,7 +3,7 @@
 @section('sub_content')
     <div class="col-md-9 b-l bg-white bg-auto">
         <div class="p-md bg-light lt b-b font-bold">
-            {{ ucwords($currentPage) }}
+            {{ ucwords($pageTitle) }}
             <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="glyphicon glyphicon-chevron-left"></i>Back</a>
         </div>
         {!! Form::model($query, ['url' => $url, 'method' => $method, 'class' => 'p-md col-md-12']) !!}

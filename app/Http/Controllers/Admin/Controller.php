@@ -28,10 +28,10 @@ class Controller extends BaseController
         ]);
     }
 
-    public function getTable($columns, $url, $view = 'default_table', $currentPage = null)
+    public function getTable($columns, $url, $view = 'default_table', $pageTitle = null)
     {
         $admin = $this->admin;
-        $currentPage = ($currentPage)?:$this->page;
+        $pageTitle = ($pageTitle)?:$this->page;
         $datatableColumns = [];
 
         foreach ($columns as $column) {
@@ -49,7 +49,7 @@ class Controller extends BaseController
 
         $actionButtons = \Admin::crudCheck($admin);
 
-        return view('admin.default.' . $view, compact('datatableColumns', 'url', 'currentPage', 'actionButtons'));
+        return view('admin.default.' . $view, compact('datatableColumns', 'url', 'pageTitle', 'actionButtons'));
     }
 
     public function getForm($query, $formAttr, $data = [])
@@ -57,9 +57,9 @@ class Controller extends BaseController
         $url = (isset($formAttr['url'])) ? $formAttr['url'] : '#';
         $view = (isset($formAttr['view'])) ? $formAttr['view'] : 'default_form';
         $method = (isset($formAttr['method'])) ? $formAttr['method'] : 'post';
-        $currentPage = (isset($formAttr['currentPage'])) ? $formAttr['currentPage'] : $this->page;
+        $pageTitle = (isset($formAttr['pageTitle'])) ? $formAttr['pageTitle'] : $this->page;
         $fields = (isset($formAttr['fields'])) ? $formAttr['fields'] : null;
 
-        return view('admin.default.' . $view, compact('query', 'url', 'currentPage', 'method', 'fields', 'data'));
+        return view('admin.default.' . $view, compact('query', 'url', 'pageTitle', 'method', 'fields', 'data'));
     }
 }

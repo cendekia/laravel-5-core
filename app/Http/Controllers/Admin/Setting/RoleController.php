@@ -74,7 +74,7 @@ class RoleController extends Controller
             'view' => 'setting_form',
             'method' => 'post',
             'fields' => $this->editableFields,
-            'currentPage' => 'add new role'
+            'pageTitle' => 'add new role'
         ];
 
         return view('admin.setting.roles.form', compact('formAttr', 'roleLists'));
@@ -131,7 +131,7 @@ class RoleController extends Controller
             'view' => 'setting_form',
             'method' => 'put',
             'fields' => $this->editableFields,
-            'currentPage' => 'Edit Role: '. $query->name
+            'pageTitle' => 'Edit Role: '. $query->name
         ];
 
         return view('admin.setting.roles.form', compact('formAttr', 'roleLists'));

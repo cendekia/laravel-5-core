@@ -69,7 +69,7 @@ class MemberController extends Controller
             'view' => 'setting_form',
             'method' => 'post',
             'fields' => $this->editableFields,
-            'currentPage' => 'add new member'
+            'pageTitle' => 'add new member'
         ];
 
         return parent::getForm(null, $formAttr, $data);
@@ -89,8 +89,11 @@ class MemberController extends Controller
         $query->password = \Hash::make($request->password);
         $query->restricted_access = 1;
 
-        if (!$query->save())
+        if (!$query->save()) {
             return redirect()->back()->withErrors('Ouch! Add admin failed.');
+        } else {
+            $query->roles()->attach($request->role);
+        }
 
         return redirect($this->url)->with('status', $query->email .' has been added!');
     }
@@ -125,7 +128,7 @@ class MemberController extends Controller
             'view' => 'setting_form',
             'method' => 'put',
             'fields' => $this->editableFields,
-            'currentPage' => 'Edit Member: '. $query->name
+            'pageTitle' => 'Edit Member: '. $query->name
         ];
 
         $data = [
