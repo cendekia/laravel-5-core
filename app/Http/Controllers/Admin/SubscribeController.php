@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests;
-use App\Model\Subscribe;
+use App\Models\Subscribe;
 use Illuminate\Http\Request;
 
 class SubscribeController extends Controller
