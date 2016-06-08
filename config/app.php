@@ -159,6 +159,7 @@ return [
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
         'JavaScript' => Laracasts\Utilities\JavaScript\JavaScript::class,
         'Datatables' => Yajra\Datatables\Datatables::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];
