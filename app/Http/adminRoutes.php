@@ -20,6 +20,10 @@ Route::group(['middleware' => 'guest.admin'], function () {
     Route::post('admin/signin', 'Admin\AuthController@postSignIn');
 });
 
+Route::get('/admin', function() {
+    return Redirect::to('/admin/dashboard');
+});
+
 Route::get('admin/signout', 'Admin\AuthController@getSignOut');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth.admin', 'restrictAccess']], function() {
@@ -36,10 +40,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 
 	});
 
-	Route::get('/', function() {
-	    return Redirect::to('/admin/dashboard');
-	});
-
     Route::resource('/dashboard', 'DashboardController');
+
+    Route::get('/subscribes/ajax', ['uses' => 'SubscribeController@getData', 'as' => 'admin.subscribes.ajax']);
+    Route::resource('/subscribes', 'SubscribeController');
 
 });
