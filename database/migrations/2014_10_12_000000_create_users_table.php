@@ -25,9 +25,9 @@ class CreateUsersTable extends Migration
 
         $admin = new \App\User;
         $admin->name = 'Super Administrator';
-        $admin->email = env('ADMIN_DEFAULT_EMAIL', 'me@cendekiapp.com');
+        $admin->email = env('ADMIN_DEFAULT_EMAIL', 'admin@demo.com');
         $admin->restricted_access = 1;
-        $admin->password = \Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'laravel5core'));
+        $admin->password = \Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'admindemo'));
         $admin->save();
     }
 
