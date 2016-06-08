@@ -50,7 +50,10 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return parent::getTable($this->columns, $this->url, 'setting_table');
+        $columns = $this->columns;
+        unset($columns[0]);
+
+        return parent::getTable($columns, $this->url, 'setting_table');
     }
 
     /**

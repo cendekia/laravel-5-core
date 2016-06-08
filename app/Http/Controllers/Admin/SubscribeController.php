@@ -47,7 +47,10 @@ class SubscribeController extends Controller
      */
     public function index()
     {
-        return parent::getTable($this->columns, $this->url);
+        $columns = $this->columns;
+        unset($columns[0]);
+
+        return parent::getTable($columns, $this->url);
     }
 
     /**
