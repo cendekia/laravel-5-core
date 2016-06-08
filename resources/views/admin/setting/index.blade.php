@@ -7,10 +7,14 @@
 		</div>
 	  	<div class="box">
 			<div class="col-md-3">
-				<div style="background:url({{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}) center center; background-size:cover">
+				<div style="background:url({{ asset('contents/profile_pictures/'.@$admin->adminProfile->profile_picture) }}) center center; background-size:cover">
 					<div class="p-lg bg-white-overlay text-center">
 						<a href class="w-xs inline">
-							<img src="{{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}" class="img-circle img-responsive">
+                            @if ($admin->adminProfile)
+				                <img src="{{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}" class="img-circle img-responsive">
+                            @else
+                                <i class="glyphicon glyphicon-user" style="font-size: 70px;color: grey;"></i>
+                            @endif
 						</a>
 						<div class="m-b m-t-sm h2">
 							<span class="text-black">{{ $admin->name }}</span>
