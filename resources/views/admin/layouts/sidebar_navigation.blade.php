@@ -22,7 +22,7 @@
                     <div class="box-inner">
                         <div class="p hidden-folded blue-50" style="background-image:url({{ asset('admin_assets') }}/images/bg.png); background-size:cover">
                             <div class="rounded w-64 bg-white inline pos-rlt">
-                                <img src="{{ asset('admin_assets') }}/images/a0.jpg" class="img-responsive rounded">
+                                <img src="{{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}" class="img-responsive rounded">
                             </div>
                             <a class="block m-t-sm" ui-toggle-class="hide, show" target="#nav, #account">
                                 <span class="block font-bold">{{ $admin->name }}</span>

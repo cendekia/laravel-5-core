@@ -7,10 +7,10 @@
 		</div>
 	  	<div class="box">
 			<div class="col-md-3">
-				<div style="background:url({{ asset('admin_assets')  }}/images/a1.jpg) center center; background-size:cover">
+				<div style="background:url({{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}) center center; background-size:cover">
 					<div class="p-lg bg-white-overlay text-center">
 						<a href class="w-xs inline">
-							<img src="{{ asset('admin_assets') }}/images/a1.jpg" class="img-circle img-responsive">
+							<img src="{{ asset('contents/profile_pictures/'.$admin->adminProfile->profile_picture) }}" class="img-circle img-responsive">
 						</a>
 						<div class="m-b m-t-sm h2">
 							<span class="text-black">{{ $admin->name }}</span>

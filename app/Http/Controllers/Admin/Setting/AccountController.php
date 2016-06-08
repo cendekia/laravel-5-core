@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests;
+use App\Models\AdminProfile;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $status = 'Profile updated!';
         $account = $this->account;
         $account->name = $request->name;
 
@@ -56,13 +58,30 @@ class AccountController extends Controller
             }
 
             $account->password = \Hash::make($request->password);
-
-            if ($account->save()) {
-                return redirect()->back()->with('status', 'Your password has been updated.');
-            }
+            $status = 'Your password has been updated.';
         }
 
-        return redirect()->back()->with('status', 'Profile updated!');
+        if ($request->hasFile('profile_picture')) {
+            $folderPath = public_path('contents/profile_pictures');
+            if (!\File::isDirectory($folderPath)) \File::makeDirectory($folderPath, 0775, true);
+
+            $fileName = $request->profile_picture->getClientOriginalName();
+            $newName = pathinfo($fileName, PATHINFO_FILENAME) . '_' . strtotime('now') .'.'. pathinfo($fileName, PATHINFO_EXTENSION);
+
+            \Image::make($request->profile_picture)->fit(90, 90)->save($folderPath . '/' . $newName);
+        }
+
+        if (!$account->save())
+            return redirect()->back()->withErrors('Update failed!');
+
+        $checkExisting = AdminProfile::whereUserId($account->id)->first();
+
+        $addProfile = ($checkExisting) ?: new AdminProfile;
+        $addProfile->profile_picture = $newName;
+        $addProfile->user_id = $account->id;
+        $addProfile->save();
+
+        return redirect()->back()->with('status', $status);
     }
 
     /**

@@ -4,20 +4,17 @@
 	<div class="col-md-9 b-l bg-white bg-auto">
 		<div class="p-md bg-light lt b-b font-bold">Account Setting</div>
 
-        {!! Form::model($account, ['url' => url('admin/setting/account'), 'method' => 'post', 'class' => 'p-md col-md-6']) !!}
+        {!! Form::model($account, ['url' => url('admin/setting/account'), 'method' => 'post', 'class' => 'p-md col-md-6', 'enctype' => 'multipart/form-data']) !!}
 
             @include('admin.layouts.error_and_message')
 
             <div class="form-group">
 				<label>Profile picture</label>
-				<div class="form-file">
-					<input type="file">
-					<button class="btn btn-default">Upload new picture</button>
-				</div>
+				<input type="file" name="profile_picture" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>Name</label>
-				<input type="text" name="name" class="form-control" value="{{ $account->name }}">
+				<input type="text" name="name" class="form-control" value="{{ $account->name }}" required>
 			</div>
 			<div class="form-group">
 				<label>Email address</label>
