@@ -24,3 +24,9 @@ admin_profile   |
 id              |
 profile_picture |
 user_id         |
+
+subscribes      |
+----------------|
+id              |
+email           |
+active          |
