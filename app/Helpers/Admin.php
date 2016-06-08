@@ -34,11 +34,13 @@ class Admin {
 
             if (isset($middlewares) && is_array($middlewares) && in_array('restrictAccess', $middlewares)) {
                 if (isset($value->getAction()['as'])) {
-                    $name = explode('.', $value->getAction()['as'])[1];
+                    $routeSection = explode('.', $value->getAction()['as']);
+                    $name = $routeSection[1];
                     $name = (strlen($name) < 4) ? strtoupper($name) : $name;
 
-                    if ($name !== "" && !isset($urlList[$name]))
+                    if ($name !== "" && !isset($urlList[$name]) && end($routeSection) == 'index') {
                         $urlList[$name] = url($value->getUri());
+                    }
                 }
             }
         }
