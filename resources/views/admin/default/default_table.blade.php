@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                     @foreach($datatableColumns as $column)
-                        <th style="{{ ($column['name'] == 'action') ? 'width:65px' : '' }}">{{ strtoupper(str_replace('_', ' ', $column['name'])) }}</th>
+                        <th style="{{ ($column['data'] == 'action') ? 'width:65px' : '' }}">{{ strtoupper(str_replace('_', ' ', $column['data'])) }}</th>
                     @endforeach
                     </tr>
                 </thead>

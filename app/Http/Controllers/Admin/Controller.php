@@ -28,15 +28,19 @@ class Controller extends BaseController
         ]);
     }
 
-    public function getTable($columns, $url, $view = 'default_table', $pageTitle = null)
+    public function getTable($columns, $url, $view = 'default_table', $pageTitle = null, $parentTable = null)
     {
         $admin = $this->admin;
         $pageTitle = ($pageTitle)?:$this->page;
         $datatableColumns = [];
 
         foreach ($columns as $column) {
+            $split = explode('.', $column);
+
+            $data = (reset($split) == $parentTable) ? end($split) : reset($split);
+
             $datatableColumns[] = [
-                'data' => $column,
+                'data' => $data,
                 'name' => $column
             ];
         }
