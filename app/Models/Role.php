@@ -29,21 +29,18 @@ class Role extends Model
 
         $row->name = $request->name;
         $row->slug = $request->slug;
-        $row->parent_role_id = $request->parent_role_id;
+        $row->parent_role_id = ($request->parent_role_id > 0) ?: \Auth::user()->roles()->first()->id;
+
         $row->whitelisted_ip_addresses = $request->whitelisted_ip_addresses;
 
         $routes = call_user_func_array('array_merge', \Admin::adminRouteList());
         $permissions = [];
 
-        if (isset($request->allow_all['all']))
-        {
-            foreach ($routes as $route)
-            {
+        if (isset($request->allow_all['all'])) {
+            foreach ($routes as $route) {
                 $permissions[$route] = true;
             }
-        }
-        else
-        {
+        } else {
             $permissions = self::permissionEncodes($request, 'create');
             $permissions += self::permissionEncodes($request, 'edit');
             $permissions += self::permissionEncodes($request, 'delete');
@@ -62,12 +59,9 @@ class Role extends Model
         $routes = call_user_func_array('array_merge', \Admin::adminRouteList());
 
         $encodedPermissions = [];
-        if ($request->get($action))
-        {
-            foreach ($request->get($action) as $key => $value)
-            {
-                foreach ($routes as $route)
-                {
+        if ($request->get($action)) {
+            foreach ($request->get($action) as $key => $value) {
+                foreach ($routes as $route) {
                     $routeSections = explode('.', $route);
                     $getActionName = end($routeSections);
                     $sectionLevel = count($routeSections) - 1;
@@ -80,8 +74,7 @@ class Role extends Model
                         $sectionName .= $routeSections[$i];
                     }
 
-                    if ($sectionName == strtolower($key) && in_array($getActionName, $staticVar->{$action}))
-                    {
+                    if ($sectionName == strtolower($key) && in_array($getActionName, $staticVar->{$action})) {
                         $encodedPermissions[$route] = true;
                     }
                 }
@@ -103,8 +96,7 @@ class Role extends Model
 
         $decodedPermissions = [];
 
-        foreach ($permissions as $key => $value)
-        {
+        foreach ($permissions as $key => $value) {
             $routeSections = explode('.', $key);
             $getActionName = end($routeSections);
             $sectionLevel = count($routeSections) - 1;

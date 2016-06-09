@@ -26,11 +26,17 @@ class RoleController extends Controller
             'whitelisted_ip_addresses' => 'text',
             'permissions' => 'text',
         ];
+
+        $this->role = $this->admin->roles()->first();
     }
 
     public function getData()
     {
         $query = $this->model->select($this->columns);
+
+        if ($this->admin->id != 1) {
+            $query = $query->where('parent_role_id', '=', $this->role->id);
+        }
 
         return \Datatables::of($query)
             ->addColumn('action', function ($query) {
@@ -64,7 +70,13 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $roleLists = Role::lists('name', 'id')->all();
+        $roleLists = $this->model;
+
+        if ($this->admin->id != 1) {
+            $roleLists = $roleLists->where('parent_role_id', '=', $this->role->id);
+        }
+
+        $roleLists = $roleLists->lists('name', 'id')->all();
 
         $currentIp = (object) ['whitelisted_ip_addresses' => \Request::ip()];
 
@@ -93,7 +105,6 @@ class RoleController extends Controller
             $request->merge(['slug' => $slug]);
         }
 
-
         if (!Role::saveThese($request))
             return redirect()->back()->withErrors('Ouch! Add admin failed.');
 
@@ -119,7 +130,13 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $roleLists = Role::where('id', '!=', $id)->lists('name', 'id')->all();
+        $roleLists = $this->model;
+
+        if ($this->admin->id != 1) {
+            $roleLists = $roleLists->where('parent_role_id', '=', $this->role->id);
+        }
+
+        $roleLists = $roleLists->lists('name', 'id')->all();
 
         $query = $this->model->find($id);
 
