@@ -74,12 +74,14 @@ class AccountController extends Controller
         if (!$account->save())
             return redirect()->back()->withErrors('Update failed!');
 
-        $checkExisting = AdminProfile::whereUserId($account->id)->first();
+        if ($request->hasFile('profile_picture')) {
+            $checkExisting = AdminProfile::whereUserId($account->id)->first();
 
-        $addProfile = ($checkExisting) ?: new AdminProfile;
-        $addProfile->profile_picture = $newName;
-        $addProfile->user_id = $account->id;
-        $addProfile->save();
+            $addProfile = ($checkExisting) ?: new AdminProfile;
+            $addProfile->profile_picture = $newName;
+            $addProfile->user_id = $account->id;
+            $addProfile->save();
+        }
 
         return redirect()->back()->with('status', $status);
     }
