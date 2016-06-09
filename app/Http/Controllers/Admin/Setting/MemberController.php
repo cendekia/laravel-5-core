@@ -18,7 +18,7 @@ class MemberController extends Controller
         $this->url = url('admin/setting/members');
 
         $this->columns = [
-            'id', 'name', 'email', 'created_at'
+            'users.id', 'users.name', 'users.email', 'roles.name'
         ];
 
         //fieldType|required|label|data
@@ -28,12 +28,23 @@ class MemberController extends Controller
             'email' => 'email|required',
             'password' => 'password|required'
         ];
+
+        $this->role = $this->admin->roles()->first();
     }
 
     public function getData()
     {
         $admin = $this->admin;
-        $query = $this->model->select($this->columns);
+        $columns = $this->columns;
+        $query = $this->model->join('role_user', 'role_user.user_id', '=', 'users.id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->select('users.id', 'users.name', 'users.email', 'roles.name as roles');
+
+        if ($this->admin->id != 1) {
+            $allowedRoles = Role::where('parent_role_id', '=', $this->role->id)->lists('id')->all();
+
+            $query = $query->whereIn('roles.id', $allowedRoles);
+        }
 
         return \Datatables::of($query)
             ->addColumn('action', function ($query) use ($admin) {
@@ -53,7 +64,7 @@ class MemberController extends Controller
         $columns = $this->columns;
         unset($columns[0]);
 
-        return parent::getTable($columns, $this->url, 'setting_table');
+        return parent::getTable($columns, $this->url, 'setting_table', null, 'users');
     }
 
     /**
@@ -63,8 +74,16 @@ class MemberController extends Controller
      */
     public function create()
     {
+        $roleLists = new Role;
+
+        if ($this->admin->id != 1) {
+            $roleLists = $roleLists->where('parent_role_id', '=', $this->role->id);
+        }
+
+        $roleLists = $roleLists->lists('name', 'id')->all();
+
         $data = [
-            'roleLists' => Role::lists('name', 'id')->all()
+            'roleLists' => $roleLists
         ];
 
         $formAttr = [
@@ -134,8 +153,16 @@ class MemberController extends Controller
             'pageTitle' => 'Edit Member: '. $query->name
         ];
 
+        $roleLists = new Role;
+
+        if ($this->admin->id != 1) {
+            $roleLists = $roleLists->where('parent_role_id', '=', $this->role->id);
+        }
+
+        $roleLists = $roleLists->lists('name', 'id')->all();
+
         $data = [
-            'roleLists' => Role::lists('name', 'id')->all()
+            'roleLists' => $roleLists
         ];
 
         return parent::getForm($query, $formAttr, $data);
