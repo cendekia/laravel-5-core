@@ -6,19 +6,31 @@ use App\User;
 
 class Admin {
 
+    protected $ignoreAccountRoute = 'setting.account';
+
     public function adminRouteList()
     {
+        $staticVar = new static;
+
         $routeNameList = [];
         foreach (\Route::getRoutes() as $value) {
             $middlewares = $value->getAction()['middleware'];
 
             if (isset($middlewares) && is_array($middlewares) && in_array('restrictAccess', $middlewares)) {
                 if (isset($value->getAction()['as'])) {
-                    $name = explode('.', $value->getAction()['as'])[1];
-                    $name = (strlen($name) < 4) ? strtoupper($name) : $name;
+                    $routeSections = explode('.', $value->getAction()['as']);
+                    $sectionLevel = count($routeSections) - 1;
 
-                    if ($name !== "")
-                        $routeNameList[$name][] = $value->getAction()['as'];
+                    $name = $routeSections[1];
+
+                    $sectionName = '';
+                    for ($i=1; $i < $sectionLevel; $i++) {
+                        $sectionName .= ($i>1) ? '.' : '';
+                        $sectionName .= $routeSections[$i];
+                    }
+
+                    if ($name !== "" && $sectionName != $staticVar->ignoreAccountRoute)
+                        $routeNameList[$sectionName][] = $value->getAction()['as'];
                 }
             }
         }
@@ -34,12 +46,19 @@ class Admin {
 
             if (isset($middlewares) && is_array($middlewares) && in_array('restrictAccess', $middlewares)) {
                 if (isset($value->getAction()['as'])) {
-                    $routeSection = explode('.', $value->getAction()['as']);
-                    $name = $routeSection[1];
-                    $name = (strlen($name) < 4) ? strtoupper($name) : $name;
+                    $routeSections = explode('.', $value->getAction()['as']);
+                    $sectionLevel = count($routeSections) - 1;
 
-                    if ($name !== "" && !isset($urlList[$name]) && end($routeSection) == 'index') {
-                        $urlList[$name] = url($value->getUri());
+                    $name = $routeSections[1];
+
+                    $sectionName = '';
+                    for ($i=1; $i < $sectionLevel; $i++) {
+                        $sectionName .= ($i>1) ? '.' : '';
+                        $sectionName .= $routeSections[$i];
+                    }
+
+                    if ($name !== "" && !isset($urlList[$sectionName]) && end($routeSections) == 'index') {
+                        $urlList[$sectionName] = url($value->getUri());
                     }
                 }
             }

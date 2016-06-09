@@ -20,6 +20,8 @@ class Role extends Model
     protected $edit = ['index', 'edit', 'update', 'ajax'];
     protected $delete = ['index', 'destroy', 'ajax'];
     protected $defaultRoute = 'admin..index'; //default route for all roles
+    protected $ignoredActionRoute = ['index', 'ajax'];
+    protected $defaultSettingRoute = 'admin.setting.account.index';
 
     public static function saveThese($request, $id = null)
     {
@@ -31,7 +33,6 @@ class Role extends Model
         $row->whitelisted_ip_addresses = $request->whitelisted_ip_addresses;
 
         $routes = call_user_func_array('array_merge', \Admin::adminRouteList());
-
         $permissions = [];
 
         if (isset($request->allow_all['all']))
@@ -61,18 +62,25 @@ class Role extends Model
         $routes = call_user_func_array('array_merge', \Admin::adminRouteList());
 
         $encodedPermissions = [];
-
         if ($request->get($action))
         {
             foreach ($request->get($action) as $key => $value)
             {
                 foreach ($routes as $route)
                 {
-                    $getAttributes = explode('.', $route);
-                    $getSectionName = $getAttributes[1];
-                    $getActionName = end($getAttributes);
+                    $routeSections = explode('.', $route);
+                    $getActionName = end($routeSections);
+                    $sectionLevel = count($routeSections) - 1;
 
-                    if ($getSectionName == strtolower($key) && in_array($getActionName, $staticVar->{$action}))
+                    $name = $routeSections[1];
+
+                    $sectionName = '';
+                    for ($i=1; $i < $sectionLevel; $i++) {
+                        $sectionName .= ($i>1) ? '.' : '';
+                        $sectionName .= $routeSections[$i];
+                    }
+
+                    if ($sectionName == strtolower($key) && in_array($getActionName, $staticVar->{$action}))
                     {
                         $encodedPermissions[$route] = true;
                     }
@@ -80,6 +88,7 @@ class Role extends Model
             }
 
             $encodedPermissions[$staticVar->defaultRoute] = true;
+            $encodedPermissions[$staticVar->defaultSettingRoute] = true;
         }
 
         return $encodedPermissions;
@@ -96,22 +105,29 @@ class Role extends Model
 
         foreach ($permissions as $key => $value)
         {
-            $getAttributes = explode('.', $key);
-            $getActionName = end($getAttributes);
-            $getSectionName = $getAttributes[1];
+            $routeSections = explode('.', $key);
+            $getActionName = end($routeSections);
+            $sectionLevel = count($routeSections) - 1;
 
-            $getSectionName = (strlen($getSectionName) < 4) ? strtoupper($getSectionName) : $getSectionName;
+            $name = $routeSections[1];
 
-            if ($getSectionName !== "") {
-                if (in_array($getActionName, $staticVar->create) && $getActionName != 'index') {
-                    $decodedPermissions['create.'.$getSectionName] = 1;
-                } elseif (in_array($getActionName, $staticVar->edit)  && $getActionName != 'index') {
-                    $decodedPermissions['edit.'.$getSectionName] = 1;
-                } elseif (in_array($getActionName, $staticVar->delete)  && $getActionName != 'index') {
-                    $decodedPermissions['delete.'.$getSectionName] = 1;
+            $sectionName = '';
+            for ($i=1; $i < $sectionLevel; $i++) {
+                $sectionName .= ($i>1) ? '.' : '';
+                $sectionName .= $routeSections[$i];
+            }
+
+            if ($sectionName !== "") {
+                if (in_array($getActionName, $staticVar->create) && !in_array($getActionName, $staticVar->ignoredActionRoute)) {
+                    $decodedPermissions['create.'.$sectionName] = 1;
+                } elseif (in_array($getActionName, $staticVar->edit)  && !in_array($getActionName, $staticVar->ignoredActionRoute)) {
+                    $decodedPermissions['edit.'.$sectionName] = 1;
+                } elseif (in_array($getActionName, $staticVar->delete)  && !in_array($getActionName, $staticVar->ignoredActionRoute)) {
+                    $decodedPermissions['delete.'.$sectionName] = 1;
                 }
             }
         }
+
         return $decodedPermissions;
     }
 }

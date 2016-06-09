@@ -44,7 +44,11 @@
                                 <ul class="nav">
                                     <?php $urlList = \Admin::adminUrlList(); ?>
                                     @foreach(\Admin::adminRouteList() as $nav => $routes)
-                                        @if ($nav != 'setting' && \Admin::isHasAccess($routes, $admin))
+                                        <?php
+                                            $navCheck = explode('.', $nav);
+                                            $isNotMainNav = config('app.admin.not_main_route');
+                                        ?>
+                                        @if (!in_array($navCheck[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
                                             <li class="{{ Attr::isActive($nav, $activeMenu) }}">
                                                 <a md-ink-ripple href="{{ $urlList[$nav] }}">
                                                     <i class="icon mdi-editor-format-list-bulleted i-20"></i>

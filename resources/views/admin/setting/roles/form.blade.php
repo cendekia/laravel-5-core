@@ -34,9 +34,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse (\Admin::adminRouteList() as $key => $route)
+                                @forelse (\Admin::adminRouteList() as $key => $routes)
                                     <tr>
-                                        <td>{{ ucwords(str_replace('-', ' ', $key)) }}</td>
+                                        <td>{{ ucwords(str_replace('.', ' > ', $key)) }}</td>
                                         <td class="center">
                                             {!! Form::checkbox('create['.$key.']', 1, (isset($formAttr['query']->permissions['create.'.$key])) ? true : false, ['class' => 'role_check_box']) !!}
                                         </td>
@@ -46,6 +46,7 @@
                                         <td class="center">
                                             {!! Form::checkbox('delete['.$key.']', 1, (isset($formAttr['query']->permissions['delete.'.$key])) ? true : false, ['class' => 'role_check_box']) !!}
                                         </td>
+
                                         <td class="center">
                                             {!! Form::checkbox('allow_all['.$key.']', 1, (isset($formAttr['query']->permissions['allow_all.'.$key])) ? true : false, ['class' => 'allow_this_role']) !!}
                                         </td>

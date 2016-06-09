@@ -25,15 +25,25 @@
 					</div>
 				</div>
 				<ul class="nav nav-lists b-t" ui-nav>
-					<li class="{{ ($activeSubMenu == 'account') ? 'active' : '' }}">
-						<a href="{{ url('admin/setting/account') }}">Account Settings</a>
-					</li>
-					<li class="{{ ($activeSubMenu == 'members') ? 'active' : '' }}">
-						<a href="{{ url('admin/setting/members') }}">Members</a>
-					</li>
-					<li class="{{ ($activeSubMenu == 'roles') ? 'active' : '' }}">
-						<a href="{{ url('admin/setting/roles') }}">Roles</a>
-					</li>
+                    <li class="{{ Attr::isActive('account', $activeSubMenu) }}">
+                        <a href="{{ url('admin/setting/account') }}">Account Settings</a>
+                    </li>
+
+                    <?php $urlList = \Admin::adminUrlList(); ?>
+
+                    @foreach(\Admin::adminRouteList() as $nav => $routes)
+                        <?php
+                            $navCheck = explode('.', $nav);
+                            $isNotMainNav = config('app.admin.not_main_route');
+                        ?>
+                        @if (in_array($navCheck[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
+                            <li class="{{ Attr::isActive($nav, $activeSubMenu) }}">
+                                <a md-ink-ripple href="{{ $urlList[$nav] }}">
+                                    <span>{{ ucwords($navCheck[1]) }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
 				</ul>
 			</div>
 

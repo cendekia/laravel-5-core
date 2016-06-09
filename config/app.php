@@ -221,4 +221,8 @@ return [
 
     'name' => ucwords(str_replace('_', ' ', env('APP_NAME', 'core'))),
 
+    'admin' => [
+        'not_main_route' => ['setting'],
+    ],
+
 ];
