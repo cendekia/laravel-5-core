@@ -77,10 +77,15 @@ class AccountController extends Controller
         if ($request->hasFile('profile_picture')) {
             $checkExisting = AdminProfile::whereUserId($account->id)->first();
 
+            if ($checkExisting) {
+                $oldProfilePicture = $checkExisting->profile_picture;
+            }
+
             $addProfile = ($checkExisting) ?: new AdminProfile;
             $addProfile->profile_picture = $newName;
             $addProfile->user_id = $account->id;
-            $addProfile->save();
+
+            if ($addProfile->save() && $checkExisting) \File::delete(public_path('contents/profile_pictures') . '/' . $oldProfilePicture);
         }
 
         return redirect()->back()->with('status', $status);
