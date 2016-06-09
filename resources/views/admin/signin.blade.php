@@ -11,7 +11,7 @@
         			<path d="M 8 80 L 50 0 L 50 100 Z" fill="#fff"></path>
         			<path d="M 50 0 L 8 80 L 0 14 Z" fill="rgba(255, 255, 255, 0.6)"></path>
     			</svg>
-                <span class="m-l inline">Materil</span>
+                <span class="m-l inline">{{ config('app.name') }}</span>
 			</div>
 		</div>
 

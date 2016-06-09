@@ -12,7 +12,7 @@
                 <path d="M 50 0 L 8 80 L 0 14 Z" fill="rgba(220, 220, 220, 0.6)"></path>
                 </svg>
                 <img src="{{ asset('admin_assets') }}/images/logo.png" alt="." style="max-height: 36px; display:none">
-                <span class="hidden-folded m-l inline">Materil</span>
+                <span class="hidden-folded m-l inline">{{ config('app.name') }}</span>
                 </a>
 
             </div>

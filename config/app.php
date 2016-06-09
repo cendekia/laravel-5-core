@@ -219,4 +219,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
     ],
 
+    'name' => ucwords(str_replace('_', ' ', env('APP_NAME', 'core'))),
+
 ];
