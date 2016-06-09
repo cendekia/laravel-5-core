@@ -49,9 +49,10 @@
                                             $isNotMainNav = config('app.admin.not_main_route');
                                         ?>
                                         @if (!in_array($navCheck[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
+                                            <?php $active = Attr::isActive($nav, $activeMenu); ?>
                                             <li class="{{ Attr::isActive($nav, $activeMenu) }}">
                                                 <a md-ink-ripple href="{{ $urlList[$nav] }}">
-                                                    <i class="icon mdi-editor-format-list-bulleted i-20"></i>
+                                                    <i class="icon mdi-toggle-radio-button-{{($active)?'on':'off'}} i-20"></i>
                                                     <span>{{ ucwords($nav) }}</span>
                                                 </a>
                                             </li>

@@ -35,6 +35,7 @@
                         <?php
                             $navCheck = explode('.', $nav);
                             $isNotMainNav = config('app.admin.not_main_route');
+                            $activeSubMenu = 'setting.'.$activeSubMenu;
                         ?>
                         @if (in_array($navCheck[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
                             <li class="{{ Attr::isActive($nav, $activeSubMenu) }}">
