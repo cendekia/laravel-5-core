@@ -52,5 +52,6 @@ class Kernel extends HttpKernel
         'guest.admin' => \App\Http\Middleware\Admin\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'restrictAccess' => \App\Http\Middleware\Admin\RestrictedAccess::class,
+        'whitelistedIP' => \App\Http\Middleware\Admin\IPRestriction::class,
     ];
 }

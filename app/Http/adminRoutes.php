@@ -26,7 +26,7 @@ Route::get('/admin', function() {
 
 Route::get('admin/signout', 'Admin\AuthController@getSignOut');
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth.admin', 'restrictAccess']], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth.admin', 'restrictAccess', 'whitelistedIP']], function() {
 
 	Route::group(['prefix' => 'setting', 'namespace' => 'Setting', 'middleware' => []], function() {
 
