@@ -42,22 +42,60 @@
                         <div id="nav">
                             <nav ui-nav>
                                 <ul class="nav">
-                                    <?php $urlList = \Admin::adminUrlList(); ?>
+                                    <?php
+                                        $urlList = \Admin::adminUrlList();
+                                        $nestedNav = [];
+                                    ?>
+
                                     @foreach(\Admin::adminRouteList() as $nav => $routes)
                                         <?php
-                                            $navCheck = explode('.', $nav);
+                                            $navSplit = explode('.', $nav);
                                             $isNotMainNav = config('app.admin.not_main_route');
                                         ?>
-                                        @if (!in_array($navCheck[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
-                                            <?php $active = Attr::isActive($nav, $activeMenu); ?>
-                                            <li class="{{ Attr::isActive($nav, $activeMenu) }}">
-                                                <a md-ink-ripple href="{{ $urlList[$nav] }}">
-                                                    <i class="icon mdi-toggle-radio-button-{{($active)?'on':'off'}} i-20"></i>
-                                                    <span>{{ ucwords(str_replace('-', ' ', $nav)) }}</span>
-                                                </a>
-                                            </li>
+
+                                        @if (!in_array($navSplit[0], $isNotMainNav) && \Admin::isHasAccess($routes, $admin))
+                                            @if(count($navSplit) == 2)
+                                                <?php
+                                                    $parent = $navSplit[0];
+                                                    $child = $navSplit[1];
+                                                    $nestedNav[$parent][$child] = $urlList[$nav];
+                                                ?>
+                                            @else
+                                                <?php $active = Attr::isActive($nav, $activeMenu); ?>
+
+                                                <li class="{{ $active }}">
+                                                    <a md-ink-ripple href="{{ $urlList[$nav] }}">
+                                                        <i class="icon mdi-toggle-radio-button-{{($active)?'on':'off'}} i-20"></i>
+                                                        <span>{{ ucwords(str_replace('-', ' ', $nav)) }}</span>
+                                                    </a>
+                                                </li>
+                                            @endif
                                         @endif
                                     @endforeach
+
+                                    <!-- nested navigation -->
+                                    @if (count($nestedNav) > 0)
+                                        @foreach ($nestedNav as $mainNav => $subNav)
+                                            <?php $active = Attr::isActive($mainNav, $activeMenu); ?>
+
+                                            <li class="{{ $active }}">
+                                                <a md-ink-ripple href>
+                                                    <span class="pull-right text-muted">
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </span>
+                                                    <i class="icon mdi-content-sort i-20"></i>
+                                                    <span>{{ ucwords(str_replace('-', ' ', $mainNav)) }}</span>
+                                                </a>
+                                                <ul class="nav nav-sub">
+                                                    @foreach ($subNav as $nav => $link)
+                                                        <?php $activeSub = Attr::isActive($nav, $activeSubMenu); ?>
+
+                                                        <li class="{{ $activeSub }}"><a md-ink-ripple href="{{ $link }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endforeach
+                                    @endif
                                 </ul>
                             </nav>
                         </div>
