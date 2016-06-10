@@ -53,7 +53,7 @@
                                             <li class="{{ Attr::isActive($nav, $activeMenu) }}">
                                                 <a md-ink-ripple href="{{ $urlList[$nav] }}">
                                                     <i class="icon mdi-toggle-radio-button-{{($active)?'on':'off'}} i-20"></i>
-                                                    <span>{{ ucwords($nav) }}</span>
+                                                    <span>{{ ucwords(str_replace('-', ' ', $nav)) }}</span>
                                                 </a>
                                             </li>
                                         @endif

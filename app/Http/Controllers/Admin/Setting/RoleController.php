@@ -27,7 +27,7 @@ class RoleController extends Controller
             'permissions' => 'text',
         ];
 
-        $this->role = $this->admin->roles()->first();
+        $this->role = ($this->admin) ? $this->admin->roles()->first() : null;
     }
 
     public function getData()

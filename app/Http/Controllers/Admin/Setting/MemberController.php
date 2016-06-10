@@ -29,7 +29,7 @@ class MemberController extends Controller
             'password' => 'password|required'
         ];
 
-        $this->role = $this->admin->roles()->first();
+        $this->role = ($this->admin) ? $this->admin->roles()->first() : null;
     }
 
     public function getData()

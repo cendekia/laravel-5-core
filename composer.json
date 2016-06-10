@@ -12,7 +12,8 @@
         "uxweb/sweet-alert": "^1.1",
         "yajra/laravel-datatables-oracle": "^6.11",
         "laracasts/utilities": "^2.1",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "barryvdh/laravel-elfinder": "^0.3.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -4,7 +4,7 @@
     <!-- / -->
 
     <!-- Page title - Bind to $state's title -->
-    <div class="navbar-item pull-left h4">{{ ucwords($activeMenu) }}</div>
+    <div class="navbar-item pull-left h4">{{ ucwords(str_replace('-',' ', $activeMenu)) }}</div>
     <!-- / -->
 
     <!-- Common tools -->

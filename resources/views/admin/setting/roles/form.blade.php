@@ -36,7 +36,7 @@
                             <tbody>
                                 @forelse (\Admin::adminRouteList() as $key => $routes)
                                     <tr>
-                                        <td>{{ ucwords(str_replace('.', ' > ', $key)) }}</td>
+                                        <td>{{ ucwords(str_replace('-', ' ', str_replace('.', ' > ', $key))) }}</td>
                                         <td class="center">
                                             {!! Form::checkbox('create['.$key.']', 1, (isset($formAttr['query']->permissions['create.'.$key])) ? true : false, ['class' => 'role_check_box']) !!}
                                         </td>
