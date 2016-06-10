@@ -161,6 +161,7 @@ return [
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
+        Unisharp\Ckeditor\ServiceProvider::class,
 
     ],
 

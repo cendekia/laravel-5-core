@@ -10,5 +10,10 @@
 <script src="{{ asset('admin_assets') }}/scripts/ui-waves.js"></script>
 <script src="{{ asset('admin_assets') }}/libs/jquery/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('admin_assets') }}/libs/jquery/plugins/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
+<script>
+    $('.ckeditor').ckeditor();
+</script>
 
 @stack('scripts')
