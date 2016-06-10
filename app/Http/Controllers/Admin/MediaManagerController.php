@@ -19,6 +19,13 @@ class MediaManagerController extends Controller
      */
     public function index()
     {
+        $elfinderPath = public_path('contents/elfinder');
+
+        //check if elfinder folder has created
+        if (!\File::isDirectory($elfinderPath)) {
+            \File::makeDirectory($elfinderPath, 0775, true);
+        }
+
         return view('admin.media_manager.index');
     }
 
