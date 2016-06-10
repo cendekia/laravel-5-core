@@ -4,8 +4,6 @@
 
         @include('admin.layouts.head')
 
-        @stack('elfinder_assets')
-
     </head>
     <body>
         <div class="app">
@@ -39,8 +37,6 @@
         </div>
 
         @include('admin.layouts.js')
-
-        @stack('elfinder_call')
 
     </body>
 </html>
