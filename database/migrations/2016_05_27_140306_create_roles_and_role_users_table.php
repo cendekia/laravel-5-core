@@ -39,6 +39,7 @@ class CreateRolesAndRoleUsersTable extends Migration
         $role = new \App\Models\Role;
         $role->slug = 'super-admin';
         $role->name = 'Super Admin';
+        $role->whitelisted_ip_addresses = \Request::ip();
 
         if ($role->save()) {
             $user = \App\User::find(1);
