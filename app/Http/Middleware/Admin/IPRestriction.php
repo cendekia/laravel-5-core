@@ -40,7 +40,11 @@ class IPRestriction
                 $ip = $request->ip();
 
                 // Check if the ip is valid or if allowedIpAddress
-                if (!filter_var($ip, FILTER_VALIDATE_IP) || !in_array($ip, $allowedIpAddress)) return abort('403_admin');
+                if (!filter_var($ip, FILTER_VALIDATE_IP) || !in_array($ip, $allowedIpAddress)) {
+                    \Auth::logout();
+
+                    return abort('403_admin');
+                }
             }
         }
 
