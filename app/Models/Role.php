@@ -29,7 +29,7 @@ class Role extends Model
 
         $row->name = $request->name;
         $row->slug = $request->slug;
-        $row->parent_role_id = ($request->parent_role_id > 0) ?: \Auth::user()->roles()->first()->id;
+        $row->parent_role_id = ($request->parent_role_id > 0) ? $request->parent_role_id : \Auth::user()->roles()->first()->id;
 
         $row->whitelisted_ip_addresses = $request->whitelisted_ip_addresses;
 
