@@ -43,6 +43,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::get('/subscribes/ajax', ['uses' => 'SubscribeController@getData', 'as' => 'admin.subscribes.ajax']);
     Route::resource('/subscribes', 'SubscribeController');
 
-    Route::get('/media-manager', ['uses' => 'MediaManagerController@index', 'as' => 'admin.media-manager.index']);
+    Route::resource('/media-manager', 'MediaManagerController');
 
 });
